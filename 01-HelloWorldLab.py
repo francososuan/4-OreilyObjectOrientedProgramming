@@ -31,9 +31,12 @@ Pro tips:
 '''
 
 # Write your code here:
+
+#using return
 def hello(input):
     return str("Hello, " + input + "!")
 
+#using print
 def print_hello(input):
     print("Hello, {}!" .format(input))
 
