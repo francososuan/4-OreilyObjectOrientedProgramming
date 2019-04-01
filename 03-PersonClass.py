@@ -5,5 +5,5 @@ class Person:
 
 
 person = Person("John","Smith")
-person.first
-person.last
+print(person.first)
+print(person.last)
