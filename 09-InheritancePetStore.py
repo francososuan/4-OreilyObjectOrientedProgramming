@@ -42,3 +42,5 @@ print(archer.describe())
 
 print(jiro.name + " " + jiro.describe())
 print(archer.name + " " + archer.describe())
+
+# Challenge: placing describe() into the Pet Class
