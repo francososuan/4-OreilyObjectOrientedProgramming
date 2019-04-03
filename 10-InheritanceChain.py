@@ -22,3 +22,8 @@ print(shorty.describe())
 
 pip = LoudLapDog("Pip")
 print(pip.describe())
+
+print(isinstance(shorty,Pet))
+print(isinstance(shorty,Dog))
+print(isinstance(shorty,LapDog))
+print(isinstance(shorty,LoudLapDog))
