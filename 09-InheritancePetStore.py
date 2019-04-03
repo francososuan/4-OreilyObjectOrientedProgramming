@@ -39,3 +39,6 @@ print(jiro.describe())
 
 archer = Cat("Archer")
 print(archer.describe())
+
+print(jiro.name + " " + jiro.describe())
+print(archer.name + " " + archer.describe())
