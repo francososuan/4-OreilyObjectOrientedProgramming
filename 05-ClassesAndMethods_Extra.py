@@ -104,14 +104,13 @@ The add_invoice() method takes an instance of the Invoice class.
 # Write your code here:
 
 class Invoice:
-
-    def __init__(self,number,customer,amount):
+    def __init__(self, number, customer, amount):
         self.number = number
         self.customer = customer
         self.amount = amount
         self.total_payments = 0
 
-    def add_payment(self,payment):
+    def add_payment(self, payment):
         self.total_payments += payment
 
     def is_fully_paid(self):
@@ -120,8 +119,37 @@ class Invoice:
     def amount_due(self):
         return self.amount - self.total_payments
 
-# class CustomerAccount:
+class CustomerAccount:
+    def __init__(self, customer_name):
+        self.name = customer_name
+        self.invoices = []
 
+    def add_invoice(self, invoice):
+        self.invoices.append(invoice)
+
+    def total_due(self):
+        due = 0
+        for invoice in self.invoices:
+            due += invoice.amount_due()
+        return due
+
+
+    def unpaid_invoices(self):
+        items = []
+        for invoice in self.invoices:
+            if not invoice.is_fully_paid():
+                items.append(invoice)
+        return items
+
+    def apply_payment(self, amount):
+        for invoice in self.unpaid_invoices():
+            due = invoice.amount_due()
+            if due < amount:
+                invoice.add_payment(due)
+                amount -= due
+            else:
+                invoice.add_payment(amount)
+                break
 
 
 # Do not edit any code below this line!
