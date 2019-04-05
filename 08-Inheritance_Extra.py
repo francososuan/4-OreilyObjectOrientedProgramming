@@ -174,6 +174,103 @@ no damage at all:
 
 # Write your code here:
 
+class Creature():
+
+    hitpoints = 0
+    damage = 0
+    armor = 0
+
+    def __init__(self,name):
+        self.name = name
+
+    def is_alive(self):
+        return self.hitpoints > 0
+
+    def describe(self):
+        return self.name + " the {}" .format(self.__class__.__name__)
+
+    def attack(self,target):
+        damage = self.damage - target.armor
+        if damage > target.hitpoints:
+            damage = target.hitpoints
+        target.hitpoints -= damage
+        return damage
+
+    def select_target(self,enemies):
+        return enemies[0]
+
+
+class Goblin(Creature):
+    hitpoints = 10
+    damage = 3
+    armor = 1
+
+    def attack(self,target):
+        if isinstance(target,Orc):
+            damage = self.damage * 2
+        else:
+            damage = self.damage
+        damage = damage - target.armor
+        if damage < 0:
+            damage = 0
+        target.hitpoints = target.hitpoints - damage
+        return damage
+
+class Orc(Creature):
+    hitpoints = 15
+    damage = 5
+    armor = 2
+
+    def select_target(self,enemies):
+        candidates = [
+            enemy for enemy in enemies
+            if not isinstance(enemy,Orc)
+        ]
+
+        if len(candidates) == 0:
+            candidates = enemies
+
+        target = candidates[0]
+
+        for choice in candidates[1:]:
+            if choice.armor < target.armor:
+                target = choice
+        return target
+
+
+class HillOrc(Orc):
+    hitpoints = 20
+    armor = 3
+
+    def attack(self,target):
+        if isinstance(target,Skeleton):
+            damage = 0
+        else:
+            damage = self.damage
+
+        if damage <0:
+            damage = 0
+
+        target.hitpoints -= damage
+        return damage
+
+class Skeleton(Creature):
+    hitpoints = 8
+    damage = 4
+    armor = 0
+
+    def select_target(self,enemies):
+        target = enemies[0]
+        for choice in enemies[1:]:
+            if choice.hitpoints <target.hitpoints:
+                target = choice
+        return target
+
+class Ewok(Creature):
+    hitpoints = 4
+    damage = 10
+    armor = 1
+
 
 
 # Do not edit any code below this line!
