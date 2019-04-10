@@ -123,7 +123,68 @@ the superclass:
 
 # Write your code here:
 
+import abc
+import json
 
+
+class WebApp:
+    def __init__(self):
+        self._routes = {}
+
+    def add_route(self, url, view):
+        self._routes[url] = view
+
+    def get(self, url):
+        view = self._routes[url]
+        return view.render()
+
+    def urls(self):
+        return sorted(self._routes.keys())
+
+
+class View(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    def render(self):
+        pass
+
+
+class HTMLView(View):
+    body: str
+
+    def render(self):
+        return '<html><body>' + self.body + '</body></html>'
+
+
+class ShoutingHTMLView(HTMLView):
+    def render(self):
+        return super().render().upper()
+
+
+class JSONView(View):
+    @abc.abstractmethod
+    def data(self):
+        pass
+
+    def render(self):
+        return json.dumps(self.data(), sort_keys=True)
+
+
+class HomePageView(HTMLView):
+    body = 'Welcome!'
+
+
+class AboutPageView(HTMLView):
+    body = 'This is a simple website about nutrition.'
+
+
+class ChickenInfoView(JSONView):
+    def data(self):
+        return {
+            'serving_size': 140,
+            'fat': 5,
+            'calories': 231,
+            'protein': 43,
+        }
 
 
 # Do not edit any code below this line!
